@@ -1,0 +1,187 @@
+<title>Brown Turtle Universities</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: green hero with live counts, sticky tab + filter bar, responsive card grid, contact footer. */
+:root {
+  --bg: #F3F5F1; --surface: #FFFFFF; --fg: #1E2A24; --muted: #5E6B63; --line: #D9DFD7;
+  --brand: #234B3E; --brand-fg: #F3F5F1; --accent: #A8601F; --chip: #E6ECE4;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #141A17; --surface: #1D2622; --fg: #E8EEE9; --muted: #9AA8A0; --line: #2C3832; --brand: #1B3A30; --brand-fg: #E8EEE9; --accent: #E0A466; --chip: #26332D; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #141A17; --surface: #1D2622; --fg: #E8EEE9; --muted: #9AA8A0; --line: #2C3832; --brand: #1B3A30; --brand-fg: #E8EEE9; --accent: #E0A466; --chip: #26332D; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.hero { background: var(--brand); color: var(--brand-fg); margin-top: calc(-1 * env(safe-area-inset-top, 0px)); padding-top: calc(env(safe-area-inset-top, 0px) + 28px); padding-bottom: 32px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+.brand-mark { width: 30px; height: 30px; border-radius: 50% 50% 46% 46%; background: var(--accent); display: grid; place-items: center; color: #fff; font-size: 14px; }
+.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 6vw, 46px); line-height: 1.08; margin: 30px 0 12px; max-width: 20ch; text-wrap: balance; }
+.hero p { margin: 0; max-width: 58ch; opacity: .85; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px 36px; margin-top: 24px; }
+.stat b { display: block; font-family: var(--font-display); font-size: 26px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--brand); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: 12px; }
+.tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 10px; }
+.tab { font: inherit; font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; white-space: nowrap; }
+.tab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-fg); }
+.tab small { font-weight: 500; opacity: .75; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.search { flex: 1 1 240px; min-width: 0; }
+input, select { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; min-width: 0; }
+select { width: auto; max-width: 100%; flex: 0 1 auto; }
+:is(input, select, .chip, .tab, summary, a):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chips:empty { display: none; }
+.chip { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-fg); }
+.count { color: var(--muted); font-size: 13px; margin: 18px 0 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; padding-bottom: 40px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card-top { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.mono { flex: none; width: 46px; height: 46px; border-radius: 10px; background: var(--chip); color: var(--brand); display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+:root[data-theme="dark"] .mono { color: var(--accent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mono { color: var(--accent); } }
+.card h3 { margin: 0; font-family: var(--font-display); font-size: 17px; line-height: 1.25; overflow-wrap: anywhere; }
+.loc { color: var(--muted); font-size: 13px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; padding: 3px 9px; border-radius: 6px; background: var(--chip); color: var(--fg); }
+.tag.badge { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+details { border-top: 1px solid var(--line); padding-top: 10px; }
+summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); }
+.plist { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; font-size: 13.5px; }
+.plist span { display: block; color: var(--muted); font-size: 12.5px; }
+.empty { grid-column: 1 / -1; text-align: center; padding: 48px 12px; color: var(--muted); }
+.pname { font-weight: 600; line-height: 1.35; }
+footer { background: var(--surface); border-top: 1px solid var(--line); padding-block: 28px; }
+footer h2 { font-family: var(--font-display); font-size: 20px; margin: 0 0 6px; }
+footer p { margin: 0 0 6px; color: var(--muted); max-width: 62ch; }
+.contact { list-style: none; margin: 14px 0 16px; padding: 0; display: grid; gap: 8px; }
+.contact li { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; overflow-wrap: anywhere; user-select: text; }
+.contact li > span:first-child { flex: 0 0 64px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.contact a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.contact a:hover { text-decoration: underline; }
+.contact .sep { color: var(--muted); }
+footer .fine { font-size: 12.5px; }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">B</span>Brown Turtle Education</div>
+    <h1>Universities and programmes we offer admission to</h1>
+    <p>Online degrees from Indian universities, WP programmes with leading institutions, and study-abroad options. Search by name, city or course.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="controls">
+      <input class="search" id="q" type="search" placeholder="Search university, city or course" aria-label="Search">
+      <select id="sel" aria-label="Filter"></select>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="University type"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="count" id="count" aria-live="polite"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2>Talk to a counsellor</h2>
+    <p>Visit Brown Turtle Education to compare programmes, check eligibility and start your admission.</p>
+    <ul class="contact">
+      <li><span>Phone</span><a href="tel:+919901370886">+91 99013 70886</a> <span class="sep">/</span> <a href="tel:+919110658908">+91 91106 58908</a></li>
+      <li><span>Email</span><a href="mailto:brownturtleoffice@gmail.com">brownturtleoffice@gmail.com</a></li>
+      <li><span>Address</span>Sadashivgad, Karwar</li>
+    </ul>
+    <p class="fine">Programme availability, eligibility and intake dates can change. Confirm with a counsellor before you apply.</p>
+  </div>
+</footer>
+
+<script>
+const DATA = {"u": [{"n": "Chandigarh University", "c": "Mohali", "s": "Punjab", "t": "Private", "a": "A+", "r": "19th", "p": [{"n": "BBA", "s": ["Entrepreneurship", "Human Resource Management (HRM)", "Marketing", "International Business", "Family Business", "Digital Marketing", "Fin-Tech", "Retail and E-Commerce", "Artificial Intelligence", "HealthCare Management", "Logistics and Supply Chain Management", "Foreign Exchange Management", "Travel & Tourism Management", "Event Management", "Banking and Finance", "Finance", "Information Technology", "Airlines & Airport Management", "Operations Management", "Disaster Management", "Entertainment and Media", "General Management", "International Relations", "Brand Management", "Business Analytics"]}, {"n": "BBA with Gen AI Mastery Certificate in Managerial Excellence", "s": []}, {"n": "BCA with GenAI Mastery Certificate in Software Development", "s": []}, {"n": "BCA", "s": ["Data Science", "Cloud Computing & Cyber Security", "Agentic AI", "UI & UX"]}, {"n": "BA JMC", "s": []}, {"n": "BBA Business Analytics", "s": []}, {"n": "MBA TIC", "s": []}, {"n": "MBA Business Analytics", "s": []}, {"n": "MBA", "s": ["Marketing", "Human Resource Management (HRM)", "International Business (IB)", "Entrepreneurship", "Finance", "Business Analytics", "Information Technology (IT)", "Banking & Insurance", "Logistics and Supply Chain Management (LSCM)", "Hospital Management", "Event Management", "Travel and Tourism Management", "Airlines & Airport Management", "Operations Management", "Digital Marketing", "Retail Management", "Disaster Management", "Entertainment and Media", "Data Science & Artificial Intelligence", "General Management", "International Relations", "Brand Management", "Foreign Exchange Management", "Family Business", "Product Management"]}, {"n": "MCA", "s": ["Cloud Computing", "Full Stack Development", "AI & ML", "Data Analytics", "Agentic AI"]}, {"n": "MA JMC", "s": []}, {"n": "MA English", "s": []}, {"n": "MA Economics", "s": []}, {"n": "M.Sc Mathematics", "s": ["Computational mathematics", "Applied Mathematics", "Pure Mathematics"]}, {"n": "M.Sc Data Science", "s": ["Data Analytics", "Agentic AI", "Applied AI", "Generative AI"]}]}, {"n": "D.Y. Patil University", "c": "Navi Mumbai", "s": "Maharashtra", "t": "Deemed", "a": "A++", "r": "91st", "p": [{"n": "BBA", "s": ["BBA (General)", "Logistics & Supply chain", "Marketing Management", "Event Management", "Human Resources", "Retail Operations", "Hospital Management", "Investment Banking"]}, {"n": "BBA Plus", "s": ["BBA (General)", "Logistics & Supply chain", "Marketing Management", "Event Management", "Human Resources", "Retail Operations", "Hospital Management", "Investment Banking"]}, {"n": "MBA", "s": ["Marketing & Sales Management", "Data Science and Business Analytics", "Digital Marketing & AI", "HRM & People Analytics", "Hospital and Healthcare Management", "Finance", "E-commerce & Retail Management", "Operations & Supply Chain Management", "Product Management", "Fintech & Digital Banking", "Entrepreneurship & Venture Strategy"]}, {"n": "MBA Plus", "s": ["Marketing & Sales Management", "Data Science and Business Analytics", "Digital Marketing & AI", "HRM & People Analytics", "Hospital and Healthcare Management", "Finance", "E-commerce & Retail Management", "Operations & Supply Chain Management", "Product Management", "Fintech & Digital Banking", "Entrepreneurship & Venture Strategy"]}, {"n": "BCA", "s": []}, {"n": "MCA", "s": ["Applied Ai and Modern Computing", "Cloud Computing, Full Stack Development, Data Analytics", "AI &ML", "Cyber Security"]}]}, {"n": "Ajeenkya D.Y. Patil University", "c": "Pune", "s": "Maharashtra", "t": "Private", "a": "A", "r": "", "p": [{"n": "BBA", "s": []}, {"n": "BCA", "s": []}, {"n": "MBA", "s": []}, {"n": "MCA", "s": []}]}, {"n": "Andhra University", "c": "Visakhapatnam", "s": "Andhra Pradesh", "t": "State", "a": "A++", "r": "23rd", "p": [{"n": "MBA", "s": ["Finance", "Human Resource Management", "Marketing", "Digital Marketing", "Business Analytics", "Logistics & Supply Chain Management", "Healthcare & Hospital Management", "Project Management", "Data Science & Analytics"]}, {"n": "MCA", "s": []}, {"n": "MA Sociology", "s": []}]}, {"n": "OP Jindal Global University", "c": "Sonipat", "s": "Haryana", "t": "Private", "a": "", "r": "", "p": [{"n": "MBA (1 Year)", "s": ["Marketing", "Finance", "Digital Finance", "Strategy & Leadership", "Human Resource Management", "Operations & Supply Chain Management", "AI for Business"]}, {"n": "BBA", "s": ["Marketing", "Finance", "Human Resource", "Operations Management"]}]}, {"n": "Kurukshetra University", "c": "Kurukshetra", "s": "Haryana", "t": "State", "a": "A++", "r": "Band 101-150", "p": [{"n": "BA", "s": ["Economics", "History", "Mathematics", "Political Science", "Public Administration", "Sociology"]}, {"n": "BBA", "s": []}, {"n": "B.Com", "s": []}, {"n": "MBA", "s": ["Finance", "Marketing", "HRM", "Business Analytics", "Information Technology"]}, {"n": "MBA Plus", "s": []}, {"n": "M.Com", "s": []}, {"n": "MA English", "s": []}, {"n": "MA Political Science", "s": []}, {"n": "MA Mass Communication", "s": []}, {"n": "MA History", "s": []}, {"n": "MCA", "s": []}, {"n": "Certification Program in Internet of Things", "s": []}, {"n": "Certification Program in Full Stack Development", "s": []}, {"n": "Certification Program in Cloud Computing", "s": []}, {"n": "Certification Program in Block Chain", "s": []}, {"n": "Certification Program in German Language", "s": []}, {"n": "Certification Program in Japanese Language", "s": []}, {"n": "Certification Program in French Language", "s": []}, {"n": "PG Diploma in Bhagavad Gita Studies", "s": []}, {"n": "Diploma in Cyber Security", "s": []}, {"n": "Diploma in AI and Machine Learning", "s": []}, {"n": "Diploma in Data Analytics", "s": []}, {"n": "M.Sc Mathematics", "s": []}]}, {"n": "SGT University", "c": "Gurugram", "s": "Haryana", "t": "Private", "a": "A+", "r": "87th", "p": [{"n": "BBA", "s": ["Marketing", "Finance", "HR"]}, {"n": "BCA", "s": []}, {"n": "B.Com", "s": []}, {"n": "MBA", "s": ["Finance", "Marketing", "Digital Marketing", "Human Resource", "Business Analytics", "Hospital Administration", "Health Care Management"]}, {"n": "MCA", "s": []}]}, {"n": "Vivekananda Global University", "c": "Jaipur", "s": "Rajasthan", "t": "Private", "a": "A+", "r": "", "p": [{"n": "MBA", "s": ["HRM", "Finance", "Marketing", "Healthcare", "Agribusiness", "Information Technology", "International Business", "Operations Management", "International Finance", "Digital Finance & Accounting Analytics"]}, {"n": "MCA", "s": []}, {"n": "MA English", "s": []}, {"n": "M.Sc Mathematics", "s": []}, {"n": "MA JMC", "s": []}, {"n": "BBA", "s": ["Digital Marketing", "Retail Management", "Fintech", "Accounting Analytics & Financial Technology"]}, {"n": "BCA", "s": ["UX", "Data Science", "Cloud Technology", "Blockchain Technology", "Artificial Intelligence"]}, {"n": "BA", "s": ["Economics", "English", "Political Science", "Computer Applications", "History", "Public Policy & Development", "International Relations"]}]}, {"n": "Bharathidasan University", "c": "Tiruchirappalli", "s": "Tamil Nadu", "t": "State", "a": "A+", "r": "", "p": [{"n": "BA English", "s": []}, {"n": "BBA", "s": []}, {"n": "MBA", "s": []}, {"n": "MA Economics", "s": []}, {"n": "MA English", "s": []}, {"n": "MA History", "s": []}, {"n": "MA Political Science", "s": []}, {"n": "MA Public Administration", "s": []}]}, {"n": "Central University of Tamil Nadu", "c": "Thiruvarur", "s": "Tamil Nadu", "t": "Central", "a": "A+", "r": "83rd", "p": [{"n": "MBA", "s": []}, {"n": "M.Com", "s": []}, {"n": "MA English", "s": []}, {"n": "MA Hindi", "s": []}]}, {"n": "Kalasalingam University", "c": "Krishnankoil", "s": "Tamil Nadu", "t": "Deemed", "a": "A++", "r": "", "p": [{"n": "BBA", "s": []}, {"n": "BCA", "s": []}, {"n": "B.Com", "s": []}, {"n": "MA English", "s": []}, {"n": "MBA", "s": []}, {"n": "MCA", "s": []}, {"n": "M.Sc Data Science", "s": []}]}, {"n": "Vistas", "c": "Chennai", "s": "Tamil Nadu", "t": "Deemed", "a": "A++", "r": "Band 101-150", "p": [{"n": "MBA", "s": ["Human Resource", "Marketing", "Finance"]}, {"n": "BBA", "s": []}, {"n": "BBA (Hons)", "s": []}, {"n": "M.Sc Data Science and Business Analytics", "s": []}, {"n": "MCA", "s": []}]}, {"n": "Alliance University", "c": "Bengaluru", "s": "Karnataka", "t": "Private", "a": "A+", "r": "", "p": [{"n": "MBA", "s": ["Marketing", "Finance", "Human Resource", "Operations", "Business Analytics and AI"]}, {"n": "BBA", "s": ["Marketing", "Finance", "Human Resource", "Operations"]}, {"n": "B.Com (General)", "s": ["Accounts and Taxation", "Finance Management", "Marketing Management"]}, {"n": "B.Com (Hons)", "s": ["Accounts and Taxation", "Finance Management"]}]}, {"n": "Jain University", "c": "Bengaluru", "s": "Karnataka", "t": "Deemed", "a": "A++", "r": "", "p": [{"n": "BBA", "s": []}, {"n": "BCA", "s": []}, {"n": "B.Com", "s": []}, {"n": "MA", "s": []}, {"n": "MBA", "s": []}, {"n": "MCA", "s": []}, {"n": "M.Com", "s": []}]}, {"n": "Assam Downtown University", "c": "Guwahati", "s": "Assam", "t": "Private", "a": "A+", "r": "", "p": [{"n": "BBA", "s": []}, {"n": "MBA", "s": []}, {"n": "BCA", "s": []}, {"n": "MCA", "s": []}]}, {"n": "Mohan Babu University", "c": "Tirupati", "s": "Andhra Pradesh", "t": "Private", "a": "A+", "r": "", "p": [{"n": "BBA", "s": []}, {"n": "BCA", "s": []}, {"n": "B.Com", "s": []}, {"n": "MBA", "s": ["Marketing", "Finance", "Human Resource"]}, {"n": "MCA", "s": []}]}, {"n": "Sri Venkateswara University", "c": "Tirupati", "s": "Andhra Pradesh", "t": "State", "a": "", "r": "", "p": [{"n": "MBA", "s": []}, {"n": "MCA", "s": []}, {"n": "M.Com", "s": []}, {"n": "MA English", "s": []}, {"n": "MA Economics", "s": []}]}, {"n": "Vignan University", "c": "Guntur", "s": "Andhra Pradesh", "t": "Deemed", "a": "A+", "r": "70th", "p": [{"n": "BBA", "s": []}, {"n": "BCA", "s": []}, {"n": "MBA", "s": []}, {"n": "MCA", "s": []}]}, {"n": "GLA University", "c": "Mathura", "s": "Uttar Pradesh", "t": "Private", "a": "A+", "r": "", "p": [{"n": "MBA", "s": ["Banking & Finance", "Business Analytics", "Operation Management", "Supply Chain Management", "Finance", "Human Resource", "Information Tecnology", "Marekting"]}, {"n": "MCA", "s": []}, {"n": "BBA", "s": ["Finance", "Marketing", "Human Resource", "Business Logistcis and Supply chain"]}, {"n": "BCA", "s": []}, {"n": "B.Com", "s": []}]}, {"n": "Jaypee Institute of Information Technology", "c": "Noida", "s": "Uttar Pradesh", "t": "Private", "a": "", "r": "", "p": [{"n": "MBA", "s": ["Human resource", "Marketing", "Information tecnology", "Business Anlaytics Finance"]}, {"n": "MCA", "s": []}, {"n": "BBA", "s": []}, {"n": "BCA", "s": []}]}], "g": [["Executive Post Graduate Programme in Applied AI and Agentic AI", "IIIT Bangalore", "Agentic AI & Generative AI"], ["Executive Post Graduate Programme in Forward Deployed AI Engineering", "IIIT Bangalore", "Agentic AI & Generative AI"], ["Executive Programme in Generative AI for Leaders", "IIIT Bangalore", "Agentic AI & Generative AI"], ["Executive Programme in Generative AI & Agentic AI for Leaders", "WP", "Agentic AI & Generative AI"], ["Professional Certificate Programme in AI for Business Professionals", "IIM Kozhikode", "Agentic AI & Generative AI"], ["Professional Certificate Programme in Data Science & Agentic AI", "IIIT Bangalore", "Agentic AI & Generative AI"], ["Gen AI Foundations Certificate Program", "WP | Microsoft", "Agentic AI & Generative AI"], ["Gen AI Mastery Certificate for Data Analysis", "WP | Microsoft", "Agentic AI & Generative AI"], ["Gen AI Mastery Certificate for Software Development", "WP | Microsoft", "Agentic AI & Generative AI"], ["Gen AI Mastery Certificate for Managerial Excellence", "WP | Microsoft", "Agentic AI & Generative AI"], ["Gen AI Mastery Certificate for Content Creation", "WP | Microsoft", "Agentic AI & Generative AI"], ["GenAI for Business Leaders", "WP", "Agentic AI & Generative AI"], ["Executive Diploma in Machine Learning and AI", "IIIT Bangalore", "AI, Machine Learning & Data Science"], ["Executive Diploma in Data Science & AI", "IIIT Bangalore", "AI, Machine Learning & Data Science"], ["Post Graduate Certificate in Data Science & AI (Executive)", "IIIT Bangalore", "AI, Machine Learning & Data Science"], ["Post Graduate (PG) Program in Data Science", "WP", "AI, Machine Learning & Data Science"], ["Master's Degree in Artificial Intelligence and Data Science", "O.P. Jindal Global University", "AI, Machine Learning & Data Science"], ["Master of Science in Machine Learning & AI", "Liverpool John Moores University", "AI, Machine Learning & Data Science"], ["Master of Science in Data Science", "Liverpool John Moores University", "AI, Machine Learning & Data Science"], ["Executive Post Graduate Certificate in Quantum Computing & AI", "IIT Kharagpur", "AI, Machine Learning & Data Science"], ["Executive Post Graduate Certificate in Building AI Products, Systems & Services", "IIT Kharagpur", "AI, Machine Learning & Data Science"], ["Executive Post Graduate Certificate in AI-Native Software Engineering", "IIT Kharagpur", "AI, Machine Learning & Data Science"], ["Certificate Programme in Cybersecurity and AI Security", "IIT Delhi", "AI, Machine Learning & Data Science"], ["Chief Technology Officer & AI Leadership Programme", "IIIT Bangalore & IIM Udaipur", "AI, Machine Learning & Data Science"], ["Chief Data and AI Officer Programme", "IIIT Bangalore & IIM Udaipur", "AI, Machine Learning & Data Science"], ["Chief Technology and AI Officer Program", "University of Waterloo", "AI, Machine Learning & Data Science"], ["Data Science Bootcamp with AI", "WP", "AI, Machine Learning & Data Science"], ["Offline Bootcamp: Data Science and AI-ML", "WP", "AI, Machine Learning & Data Science"], ["Master of Business Administration with Certification from IIM Lucknow", "Paris School of Business", "MBA"], ["Master of Business Administration with IIM Udaipur Certification", "Liverpool John Moores University", "MBA"], ["MBA", "Golden Gate University", "MBA"], ["MBA (with Career Acceleration Program by WP)", "O.P. Jindal Global University", "MBA"], ["MBA", "O.P. Jindal Global University", "MBA"], ["MBA", "Edgewood University", "MBA"], ["Global Doctor of Business Administration", "Swiss School of Business and Management", "Doctorate"], ["Doctorate in Business Administration", "Edgewood University", "Doctorate"], ["Doctorate of Business Administration", "ESGCI, Paris", "Doctorate"], ["Doctor of Business Administration", "Golden Gate University", "Doctorate"], ["Doctor of Business Administration", "Rushford Business School, Switzerland", "Doctorate"], ["Doctor of Technology in Applied & Agentic AI", "Golden Gate University", "Doctorate"], ["DBA in Emerging Technologies with Concentration in Generative and Agentic AI", "Golden Gate University", "Doctorate"], ["Executive Doctor of Business Administration", "WP", "Doctorate"], ["Advanced Certificate in AI-Powered Digital Marketing & Communication", "MICA", "Marketing & Management"], ["Offline: Digital Marketing", "WP", "Marketing & Management"], ["MSc in International Accounting & Finance (ACCA integrated)", "O.P. Jindal Global University", "Marketing & Management"], ["Master of Arts in Industrial-Organizational Psychology", "Golden Gate University", "Marketing & Management"], ["Certificate Programme in General Management for Young Leaders", "IIM Bangalore", "Marketing & Management"], ["Executive Post Graduate Certificate in AI Powered Supply Chain and Operations", "IIT Kharagpur", "Marketing & Management"], ["Human Resource Analytics Course", "IIM Kozhikode", "Marketing & Management"], ["Insurance Fundamentals Program", "HDFC Life", "Marketing & Management"], ["Master of Education (M.Ed.)", "Northeastern University", "Education"], ["Master of Education (M.Ed.)", "Edgewood University", "Education"], ["Doctor of Education (Ed.D.)", "Edgewood University", "Education"], ["Dual Master of Education (M.Ed.) and Doctor of Education (Ed.D.) Degree Program", "Edgewood University", "Education"], ["Leadership And Communications In Projects", "KnowledgeHut", "Professional Certifications"], ["Microsoft Project 2007/2010", "KnowledgeHut", "Professional Certifications"], ["Financial Management For Project Managers", "KnowledgeHut", "Professional Certifications"], ["Fundamentals of Earned Value Management (EVM)", "KnowledgeHut", "Professional Certifications"], ["Fundamentals of Portfolio Management", "KnowledgeHut", "Professional Certifications"], ["Fundamentals of Program Management", "KnowledgeHut", "Professional Certifications"], ["CAPM Certification", "KnowledgeHut", "Professional Certifications"], ["Microsoft Project 2016", "KnowledgeHut", "Professional Certifications"], ["PMP Certification", "KnowledgeHut", "Professional Certifications"], ["PMI-RMP Certification", "KnowledgeHut", "Professional Certifications"], ["PMP Renewal Learning Path", "KnowledgeHut", "Professional Certifications"], ["Oracle Primavera P6 V18.8", "KnowledgeHut", "Professional Certifications"], ["Microsoft Project 2013", "KnowledgeHut", "Professional Certifications"], ["PgMP Certification", "KnowledgeHut", "Professional Certifications"], ["PfMP Certification Course", "KnowledgeHut", "Professional Certifications"], ["Project Planning and Monitoring", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Foundation and Practitioner Certification", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Foundation", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Practitioner", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Agile Foundation and Practitioner", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Agile Foundation Certification", "KnowledgeHut", "Professional Certifications"], ["PRINCE2 Agile Practitioner Certification", "KnowledgeHut", "Professional Certifications"], ["Contract Management and Negotiations Strategy Masterclass", "KnowledgeHut", "Professional Certifications"], ["Project Management Masters Certification Program", "KnowledgeHut", "Professional Certifications"], ["Change Management", "KnowledgeHut", "Professional Certifications"], ["Project Management Techniques", "KnowledgeHut", "Professional Certifications"], ["Change Management Foundation Certification Course", "KnowledgeHut", "Professional Certifications"], ["Change Management Practitioner Certification Course", "KnowledgeHut", "Professional Certifications"], ["Product Management Certification Program", "KnowledgeHut", "Professional Certifications"], ["Project Risk Management", "KnowledgeHut", "Professional Certifications"]], "a": [["MPS in Applied AI", "Northeastern University", "United States"], ["BS in Applied AI", "Northeastern University", "United States"], ["Master of Business Administration", "Northeastern University (D'Amore-McKim)", "United States"], ["Master of Business Administration", "Drexel University", "United States"], ["MS in Data Analytics Engineering", "Northeastern University", "United States"], ["MS Robotics and Autonomy", "Northeastern University", "United States"], ["MS in Computer Science", "Yeshiva University", "United States"], ["BS in Information Systems & Technology", "New York University", "United States"], ["Master of Business Administration", "SRH University of Applied Sciences", "Germany"], ["MBA General Management", "Munich Business School", "Germany"], ["Master of Science in Management", "WHU", "Germany"], ["MSc International Management", "International School of Management", "Germany"], ["M.Sc. Applied Data Science & AI", "SRH University of Applied Sciences", "Germany"], ["MSc Business Intelligence & Data Science", "International School of Management", "Germany"], ["Master of Science in Finance", "WHU", "Germany"], ["MSc Finance", "International School of Management", "Germany"], ["MSc International Management & Business Development", "Paris School of Business", "France"], ["MSc in Luxury and Fashion Management", "Paris School of Business", "France"], ["MSc Supply Chain Management", "Paris School of Business", "France"], ["MSc Global Supply Chain Management", "KEDGE Business School", "France"], ["MSc in Marketing Analytics and Data Intelligence", "Paris School of Business", "France"], ["MSc Marketing", "KEDGE Business School", "France"], ["MSc in International Finance", "Paris School of Business", "France"], ["MSc in International Corporate Finance", "Excelia Business School", "France"], ["MSc Applied Artificial Intelligence", "Northeastern University London", "United Kingdom"], ["MSc Artificial Intelligence and Adaptive Systems", "University of Sussex", "United Kingdom"], ["MSc Advanced Computer Science", "University of Sussex", "United Kingdom"], ["BSc Computer Science & Business (Hons)", "Northeastern University London", "United Kingdom"], ["MSc International Business Management", "Northeastern University London", "United Kingdom"], ["MSc Project Management", "Northeastern University London", "United Kingdom"], ["Master of Business Administration", "University of Sussex", "United Kingdom"], ["Master of Business Administration, International Business Management", "Seinäjoki University of Applied Sciences (SeAMK)", "Finland"], ["Master of Business Administration, International Business Management", "South-Eastern Finland University of Applied Sciences (XAMK)", "Finland"], ["BBA Digital Business Innovations", "Haaga-Helia University of Applied Sciences", "Finland"], ["International Bachelor of Business Administration", "Haaga-Helia University of Applied Sciences", "Finland"], ["BBA Business Information Technology", "Haaga-Helia University of Applied Sciences", "Finland"], ["Bachelor of Business", "Macquarie University", "Australia"], ["Bachelor of Commerce", "The University of Newcastle", "Australia"], ["Bachelor of Information Technology", "Macquarie University", "Australia"], ["Bachelor of Business Analytics", "Macquarie University", "Australia"], ["MS in Project Management", "Northeastern University Canada", "Canada"], ["Bachelor of Business Administration", "Algoma University", "Canada"], ["MPS in Analytics", "Northeastern University Canada", "Canada"], ["MPS in Informatics", "Northeastern University Canada", "Canada"], ["MBA in Technology Innovation and Entrepreneurship", "International Business University", "Canada"], ["Bachelor of Computer Science", "Algoma University", "Canada"], ["Master of Science in Professional Studies: Data Analytics", "RIT Dubai", "UAE"], ["Master of Science in Professional Studies: Smart Cities", "RIT UAE", "UAE"]]};
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const uniq = (a) => [...new Set(a)].sort();
+const initials = (n) => n.split(/\s+/).filter((w) => /^[A-Za-z]/.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
+const VIEWS = {
+  uni: { label: "Indian universities", count: DATA.u.length, selLabel: "All states", selOf: (d) => d.s, placeholder: "Search university, city or programme" },
+  up: { label: "WP programmes", count: DATA.g.length, selLabel: "All categories", selOf: (d) => d[2], placeholder: "Search programme or institution" },
+  ab: { label: "Study abroad", count: DATA.a.length, selLabel: "All countries", selOf: (d) => d[2], placeholder: "Search programme, university or country" }
+};
+let view = "uni", chip = "All";
+
+$("stats").innerHTML = [
+  [DATA.u.length, "Indian universities"], [DATA.u.reduce((n, u) => n + u.p.length, 0), "University programmes"],
+  [DATA.g.length, "WP programmes"], [DATA.a.length, "Study-abroad programmes"]
+].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+
+$("tabs").innerHTML = Object.entries(VIEWS).map(([k, v]) => `<button type="button" class="tab" role="tab" data-view="${k}" aria-selected="${k === view}">${v.label}<small>${v.count}</small></button>`).join("");
+
+function setupFilters() {
+  const v = VIEWS[view], rows = view === "uni" ? DATA.u : view === "up" ? DATA.g : DATA.a;
+  $("sel").innerHTML = `<option value="All">${v.selLabel}</option>` + uniq(rows.map(v.selOf)).map((s) => `<option>${esc(s)}</option>`).join("");
+  $("q").placeholder = v.placeholder;
+  chip = "All";
+  $("chips").innerHTML = view === "uni" ? ["All", ...uniq(DATA.u.map((u) => u.t))].map((t) => `<button type="button" class="chip" data-chip="${t}" aria-pressed="${t === "All"}">${t === "All" ? "All types" : t}</button>`).join("") : "";
+}
+
+function uniCard(u) {
+  const names = u.p.map((p) => p.n);
+  const shown = names.slice(0, 6).map((n) => `<span class="tag">${esc(n)}</span>`).join("");
+  const more = names.length > 6 ? `<span class="tag">+${names.length - 6} more</span>` : "";
+  const badges = [u.t, u.a && `NAAC ${u.a}`, u.r && `NIRF ${u.r}`].filter(Boolean).map((b) => `<span class="tag badge">${esc(b)}</span>`).join("");
+  const list = u.p.map((p) => `<li><span class="pname">${esc(p.n)}</span>${p.s.length ? `<span>${p.s.map(esc).join(" · ")}</span>` : ""}</li>`).join("");
+  return `<article class="card">
+    <div class="card-top"><div class="mono" aria-hidden="true">${esc(initials(u.n))}</div><div><h3>${esc(u.n)}</h3><div class="loc">${esc(u.c)}, ${esc(u.s)}</div></div></div>
+    <div class="tags">${badges}</div>
+    <div class="tags">${shown}${more}</div>
+    <details><summary>All ${names.length} programmes and specialisations</summary><ul class="plist">${list}</ul></details>
+  </article>`;
+}
+function progCard(d) {
+  return `<article class="card"><div class="card-top"><div class="mono" aria-hidden="true">${esc(initials(d[1]) || "U")}</div><div><h3>${esc(d[0])}</h3><div class="loc">${esc(d[1])}</div></div></div><div class="tags"><span class="tag badge">${esc(d[2])}</span></div></article>`;
+}
+
+function render() {
+  const q = $("q").value.trim().toLowerCase(), sel = $("sel").value, v = VIEWS[view];
+  let list;
+  if (view === "uni") {
+    list = DATA.u.filter((u) => (sel === "All" || u.s === sel) && (chip === "All" || u.t === chip) &&
+      (!q || [u.n, u.c, u.s, u.t, ...u.p.flatMap((p) => [p.n, ...p.s])].join(" ").toLowerCase().includes(q)));
+  } else {
+    const rows = view === "up" ? DATA.g : DATA.a;
+    list = rows.filter((d) => (sel === "All" || v.selOf(d) === sel) && (!q || d.join(" ").toLowerCase().includes(q)));
+  }
+  const noun = view === "uni" ? "universities" : "programmes";
+  $("count").textContent = `Showing ${list.length} of ${v.count} ${noun}`;
+  $("grid").innerHTML = list.length ? list.map(view === "uni" ? uniCard : progCard).join("") : `<div class="empty">Nothing matches your search. Try a different word or clear the filters.</div>`;
+}
+
+$("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest(".tab"); if (!b) return;
+  view = b.dataset.view; $("q").value = "";
+  document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t === b)));
+  setupFilters(); render();
+});
+$("q").addEventListener("input", render);
+$("sel").addEventListener("change", render);
+$("chips").addEventListener("click", (e) => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  chip = b.dataset.chip;
+  document.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === b)));
+  render();
+});
+setupFilters(); render();
+</script>
